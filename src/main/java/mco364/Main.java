@@ -15,59 +15,38 @@ class MyThread1 extends Thread implements Runnable// option 1
     }
 }
 
-class MyThread2 implements Runnable // option 2
+class MyTask implements Runnable // option 2
 {
     @Override
-    public void run(){
+    public void run(){       
+        System.out.println("Started " + Thread.currentThread().getName());
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MyThread2.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("Running " + Thread.currentThread().getName());
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {}
+        System.out.println("Completed " + Thread.currentThread().getName());
     }
 }
 
 public class Main {
-
-
-    
     public static void main(String[] args) {
         
-        Thread t = new Thread(new MyThread2( ));
+        //Thread t = new Thread(new MyTask( ));
         
-        t.run(); // runs on Main thread that runs program not a NEW hthread
+        //t.run(); // runs on Main thread that runs program not a NEW hthread
         
-        t.start(); // new Thread
+        //t.start(); // new Thread
         
-        ScheduledThreadPoolExecutor pool;
+        ExecutorService pool = Executors.newFixedThreadPool(3);
         
-        pool = new ScheduledThreadPoolExecutor(3);
-        
-        pool.execute(new MyThread2());
-        
-        pool.execute(new MyThread2());
-        
-        pool.execute(new MyThread2());
-        
-        pool.execute(new MyThread2());
-        
-        pool.execute(new MyThread2());
-        
-        pool.execute(new MyThread2());
-        
-        pool.execute(new MyThread2());
-        
-        pool.execute(new MyThread2());
-        
-        pool.execute(new MyThread2());
-        
-        pool.execute(new MyThread2());
-        
+        for (int i=0;i<10;i++)
+            pool.execute(new MyTask());
+
         pool.shutdown();
         try{
-            pool.awaitTermination(10,TimeUnit.HOURS);
+            pool.awaitTermination(1,TimeUnit.HOURS);
         }
         catch(InterruptedException e){}
+        
+        System.out.println("Hooray!!");
     }
 }

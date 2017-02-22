@@ -63,6 +63,10 @@ public class Main {
         
         pool.execute(new MyThread2());
         
-        pool.shutdownNow();
+        pool.shutdown();
+        try{
+            pool.awaitTermination(10,TimUnit.HOURS);
+        }
+        catch(InterruptedException e){}
     }
 }

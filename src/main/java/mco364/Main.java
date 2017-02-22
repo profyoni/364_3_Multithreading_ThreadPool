@@ -3,6 +3,7 @@ package mco364;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,7 +66,7 @@ public class Main {
         
         pool.shutdown();
         try{
-            pool.awaitTermination(10,TimUnit.HOURS);
+            pool.awaitTermination(10,TimeUnit.HOURS);
         }
         catch(InterruptedException e){}
     }
